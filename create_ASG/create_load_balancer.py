@@ -2,20 +2,19 @@ import boto3
 import create_ASG.get_subnet_info as vpc
 from botocore.errorfactory import ClientError
 
-
 elb_client = boto3.client('elbv2')
 ec2_client = boto3.client('ec2')
 
 
 def create_load_balancer(
-        load_balancer_name=str,
-        subnet_id_list=list,
-        alb_sg_id=str
+        load_balancer_name: str,
+        subnet_ids: list,
+        alb_sg_id: str
 ):
     try:
         # Check if Load Balancer already exists
         load_balancer = elb_client.describe_load_balancers(
-            Names=[ load_balancer_name ]
+            Names=[load_balancer_name]
         )
         if load_balancer:
             print(f'Load Balancer \'{load_balancer_name}\' already exists')
@@ -27,8 +26,8 @@ def create_load_balancer(
             try:
                 # Creating Load Balancer
                 load_balancer = elb_client.create_load_balancer(
-                    Name = load_balancer_name,
-                    Subnets = subnet_id_list,
+                    Name=load_balancer_name,
+                    Subnets=subnet_ids,
                     SecurityGroups=[alb_sg_id],
                     Scheme='internet-facing',
                     Tags=[
@@ -53,11 +52,11 @@ def create_load_balancer(
             return None
 
 
-
 if __name__ == '__main__':
     import main
+
     elb_security_group = ec2_client.describe_security_groups(
-        GroupNames = [ main.sg_name_list[0] ]
+        GroupNames=[main.sg_name_list[0]]
     )
 
     # getting subnet id list

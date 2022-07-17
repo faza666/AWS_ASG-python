@@ -5,7 +5,7 @@ from botocore.exceptions import ClientError
 asg_client = boto3.client('autoscaling')
 
 
-def del_asg(asg_name):
+def del_asg(asg_name: str):
     try:
         auto_scaling_group = asg_client.describe_auto_scaling_groups(
             AutoScalingGroupNames=[asg_name]
@@ -22,7 +22,7 @@ def del_asg(asg_name):
                 ForceDelete=True
             )
         except ClientError as e_asg:
-            print('Unexpected Error occurred while creating AutoScaling Group:')
+            print('Unexpected Error occurred while deleting AutoScaling Group:')
             print(e_asg)
             return None
 

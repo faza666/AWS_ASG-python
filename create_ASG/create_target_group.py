@@ -5,7 +5,7 @@ import create_ASG.get_subnet_info as vpc
 elb_client = boto3.client('elbv2')
 
 
-def create_target_group(tg_name=str, vpc_id=str):
+def create_target_group(tg_name: str, vpc_id: str):
     try:
         target_group = elb_client.describe_target_groups(
             Names=[ tg_name ]

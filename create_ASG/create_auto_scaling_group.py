@@ -7,8 +7,8 @@ elb_client = boto3.client('elbv2')
 asg_client = boto3.client('autoscaling')
 
 
-def create_ASG(auto_scaling_group_name=str, target_group_arn=str,
-               launch_template_name=str, availability_zones=list):
+def create_ASG(auto_scaling_group_name: str, target_group_arn: str,
+               launch_template_name: str, availability_zones: list):
     try:
         auto_scaling_group = asg_client.describe_auto_scaling_groups(
             AutoScalingGroupNames=[auto_scaling_group_name]

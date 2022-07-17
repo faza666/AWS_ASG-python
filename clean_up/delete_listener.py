@@ -1,13 +1,13 @@
 import boto3
 from botocore.errorfactory import ClientError
-import main
 
 elb_client = boto3.client('elbv2')
 
-def del_lst(alb_name=str):
+
+def del_lst(alb_name: str):
     try:
         elb = elb_client.describe_load_balancers(
-            Names = [ alb_name ]
+            Names=[alb_name]
         )
     except ClientError as e_elb:
         if e_elb.response['Error']['Code'] == 'LoadBalancerNotFound':
@@ -20,7 +20,7 @@ def del_lst(alb_name=str):
     elb_arn = elb['LoadBalancers'][0]['LoadBalancerArn']
     try:
         listener = elb_client.describe_listeners(
-            LoadBalancerArn = elb_arn
+            LoadBalancerArn=elb_arn
         )
     except ClientError as e_lis:
         print('Unexpected error occurred while getting the listener info')
@@ -31,7 +31,7 @@ def del_lst(alb_name=str):
         lst_arn = listener['Listeners'][0]['ListenerArn']
         try:
             elb_client.delete_listener(
-                ListenerArn = lst_arn
+                ListenerArn=lst_arn
             )
             print(f'Listener for \'{alb_name}\' has been deleted')
         except ClientError as e:

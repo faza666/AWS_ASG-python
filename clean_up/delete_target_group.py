@@ -1,13 +1,13 @@
 import boto3
 from botocore.errorfactory import ClientError
-import main
 
 elb_client = boto3.client('elbv2')
 
-def del_tg(tg_name=str):
+
+def del_tg(tg_name: str):
     try:
         tg = elb_client.describe_target_groups(
-            Names=[ tg_name ]
+            Names=[tg_name]
         )
     except ClientError as e_tg:
         if e_tg.response['Error']['Code'] == 'TargetGroupNotFound':
@@ -21,14 +21,13 @@ def del_tg(tg_name=str):
     tg_arn = tg['TargetGroups'][0]['TargetGroupArn']
     try:
         elb_client.delete_target_group(
-            TargetGroupArn = tg_arn
+            TargetGroupArn=tg_arn
         )
         print(f'Target Group \'{tg_name}\' has been deleted')
     except ClientError as e:
-            print('unexpected error')
-            print(e)
-            return None
-
+        print('unexpected error')
+        print(e)
+        return None
 
 
 if __name__ == '__main__':

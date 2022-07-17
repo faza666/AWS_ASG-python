@@ -1,25 +1,24 @@
 import boto3
 import time
 from botocore.errorfactory import ClientError
-import main
 
 elb_client = boto3.client('elbv2')
 
 
-def del_alb(alb_name=str):
+def del_alb(alb_name: str):
     try:
         elb = elb_client.describe_load_balancers(
-            Names=[ alb_name ]
+            Names=[alb_name]
         )
         elb_arn = elb['LoadBalancers'][0]['LoadBalancerArn']
         elb_client.delete_load_balancer(
-        LoadBalancerArn = elb_arn
+            LoadBalancerArn=elb_arn
         )
         try:
             while elb['LoadBalancers']:
                 time.sleep(2)
                 elb = elb_client.describe_load_balancers(
-                    Names=[ alb_name ]
+                    Names=[alb_name]
                 )
         except ClientError as e_elb:
             if e_elb.response['Error']['Code'] == 'LoadBalancerNotFound':
@@ -38,4 +37,5 @@ def del_alb(alb_name=str):
 
 if __name__ == '__main__':
     import main
+
     del_alb(main.load_balancer_name)

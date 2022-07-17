@@ -2,17 +2,16 @@ import boto3
 from botocore.exceptions import ClientError
 import time
 
-
 ec2_client = boto3.client('ec2')
 
 
-def check_sg(sg_name=str):
+def check_sg(sg_name: str):
     try:
         sg_response = ec2_client.describe_security_groups(
             Filters=[
                 {
                     'Name': 'group-name',
-                    'Values': [ sg_name ]
+                    'Values': [sg_name]
                 },
             ]
         )
@@ -23,7 +22,7 @@ def check_sg(sg_name=str):
     return sg_response
 
 
-def del_sg(sg_name_list=str):
+def del_sg(sg_name_list: str):
     for each in reversed(sg_name_list):
         sg_response = check_sg(each)
         if not sg_response['SecurityGroups']:
@@ -32,7 +31,7 @@ def del_sg(sg_name_list=str):
             while sg_response['SecurityGroups']:
                 try:
                     ec2_client.delete_security_group(
-                        GroupName = each
+                        GroupName=each
                     )
                 except ClientError as e_sg:
                     if e_sg.response['Error']['Code'] == 'DependencyViolation':

@@ -1,16 +1,16 @@
 import boto3
 from botocore.errorfactory import ClientError
 
-
 elb_client = boto3.client('elbv2')
 
 
-def create_listener(elb_arn=str, tg_arn=str, elb_name=str):
+def create_listener(elb_arn: str, tg_arn: str, elb_name: str):
     try:
         listener = elb_client.describe_listeners(
-            LoadBalancerArn = elb_arn
+            LoadBalancerArn=elb_arn
         )
     except ClientError as e_lis:
+        listener = None
         print('unexpected Error occurred getting listener info')
         print(e_lis)
 
@@ -40,23 +40,21 @@ def create_listener(elb_arn=str, tg_arn=str, elb_name=str):
             return None
 
 
-
-
-
 if __name__ == '__main__':
     import main
+
     # Creating Listener
-        # getting ELB ARN
+    # getting ELB ARN
     load_balancer = elb_client.describe_load_balancers(
-        Names=[ main.load_balancer_name ]
+        Names=[main.load_balancer_name]
     )
     load_balancer_arn = load_balancer['LoadBalancers'][0]['LoadBalancerArn']
 
-        # getting Target-Group ARN
+    # getting Target-Group ARN
     target_group = elb_client.describe_target_groups(
-        Names=[ main.target_group_name ]
+        Names=[main.target_group_name]
     )
     target_group_arn = target_group['TargetGroups'][0]['TargetGroupArn']
 
-        # Creating The Listener
+    # Creating The Listener
     create_listener(load_balancer_arn, target_group_arn, main.load_balancer_name)

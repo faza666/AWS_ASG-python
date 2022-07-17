@@ -5,12 +5,12 @@ from botocore.exceptions import ClientError
 ec2_client = boto3.client('ec2')
 
 
-def create_launch_template(lt_name=str, ec2_sg_name=str, user_data_string=str):
+def create_launch_template(lt_name: str, ec2_sg_name: str, user_data_string: str):
     try:
         launch_template = ec2_client.create_launch_template(
-            LaunchTemplateName = lt_name,
-            VersionDescription = 'Template to create EC2-instances within my ASG',
-            LaunchTemplateData = {
+            LaunchTemplateName=lt_name,
+            VersionDescription='Template to create EC2-instances within my ASG',
+            LaunchTemplateData={
                 'ImageId': 'ami-07df274a488ca9195',
                 'InstanceType': 't2.micro',
                 'KeyName': 'EC2 Tutorial',
@@ -42,7 +42,7 @@ def create_launch_template(lt_name=str, ec2_sg_name=str, user_data_string=str):
                     }
                 ]
             },
-            TagSpecifications = [
+            TagSpecifications=[
                 {
                     'ResourceType': 'launch-template',
                     'Tags': [
@@ -68,6 +68,7 @@ def create_launch_template(lt_name=str, ec2_sg_name=str, user_data_string=str):
 
 if __name__ == '__main__':
     import main
+
     user_data = user_data.user_data_envelop('../' + main.user_data_file)
     create_launch_template(
         main.launch_template_name, main.sg_name_list[1], user_data

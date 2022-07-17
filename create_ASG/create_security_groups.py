@@ -4,7 +4,7 @@ from botocore.exceptions import ClientError
 ec2_client = boto3.client('ec2')
 
 
-def create_security_group(group_name=str):
+def create_security_group(group_name: str):
     security_group = ec2_client.create_security_group(
         GroupName=group_name,
         Description='Security Group for my ASG'
@@ -12,7 +12,7 @@ def create_security_group(group_name=str):
     return security_group['GroupId']
 
 
-def add_inbound_rules_to_ALB_SG(SG_name=str):
+def add_inbound_rules_to_ALB_SG(SG_name: str):
     in_ALB_SG_rule = ec2_client.authorize_security_group_ingress(
         GroupName=SG_name,
         IpPermissions=[
@@ -32,7 +32,7 @@ def add_inbound_rules_to_ALB_SG(SG_name=str):
     return in_ALB_SG_rule
 
 
-def add_inbound_rules_to_EC2_SG(SG_name=str):
+def add_inbound_rules_to_EC2_SG(SG_name: str):
     in_HTTP_rule = ec2_client.authorize_security_group_ingress(
         GroupName=SG_name,
         IpPermissions=[

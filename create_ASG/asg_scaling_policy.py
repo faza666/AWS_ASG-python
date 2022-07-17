@@ -4,7 +4,7 @@ from botocore.errorfactory import ClientError
 asg_client = boto3.client('autoscaling')
 
 
-def add_scaling_policy(asg_name=str, scaling_policy_name=str):
+def add_scaling_policy(asg_name: str, scaling_policy_name: str):
     try:
         scaling_policy = asg_client.describe_policies(
             AutoScalingGroupName=asg_name,

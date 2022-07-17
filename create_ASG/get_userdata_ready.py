@@ -1,5 +1,4 @@
 import base64
-import os
 
 
 def user_data_envelop(user_data_file_name):
@@ -8,8 +7,8 @@ def user_data_envelop(user_data_file_name):
             user_data_script = user_data.read()
             encoded_data = base64.b64encode(user_data_script.encode('ascii')).decode('ascii')
         return encoded_data
-    except:
-        return 'Не удалось открыть новый файл для чтения'
+    except FileNotFoundError:
+        return 'Cannot open file for writing'
 
 
 def user_data_unpack():

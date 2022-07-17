@@ -5,7 +5,6 @@ sts_client = boto3.client('sts')
 ec2_client = boto3.client('ec2')
 
 
-#
 # to get Subnet info, VPC id is needed
 def get_vpc_id():
     try:

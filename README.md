@@ -23,7 +23,7 @@ Run "**main.py**" file, it will:
   - create **Application Load Balanser** (ALB) using Security Group created before
   - create **Target-Group** for ALB
   - create a **Listener** to connect ALB & Target-Group
-  - create and launch the **AutoScaling Group** itself
+  - create and launch an **AutoScaling Group** itself
   - add a Target-Tracking **AutoScaling Policy**
 
 Also, you may delete all created features just running "**clean_up.py**" file
